@@ -3,16 +3,19 @@ class NotesController < ApplicationController
 
   def index
     filters = params[:filters]&.to_unsafe_h&.symbolize_keys
+    puts "filters: #{filters}"
     if filters && filters[:title].present?
       @notes = Note.search_by_title(filters[:title])
     else
-      @notes = Note.all
+      @notes = Note.all.order(created_at: :desc)
     end
 
     @notes
   end
 
   def show
+    @note = Note.find(params[:id])
+
   end
 
   def new
@@ -25,9 +28,11 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
 
+    puts "note_params: #{note_params["body"]}"
+
     respond_to do |format|
       if @note.save
-        format.html { redirect_to notes_path, notice: "Note was successfully created." }
+        format.html { redirect_to note_path, notice: "Note was successfully created." }
         format.json { render :show, status: :created, location: @note }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +44,7 @@ class NotesController < ApplicationController
   def update
     respond_to do |format|
       if @note.update(note_params)
-        format.html { redirect_to notes_path, notice: "Note was successfully updated." }
+        format.html { redirect_to note_path, notice: "Note was successfully updated." }
         format.json { render :show, status: :ok, location: @note }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -63,6 +68,6 @@ class NotesController < ApplicationController
   end
 
   def note_params
-    params.require(:note).permit(:title)
+    params.require(:note).permit(:title, :body)
   end
 end

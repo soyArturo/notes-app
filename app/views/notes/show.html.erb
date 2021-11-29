@@ -10,15 +10,15 @@
             <%= format_as_localtime @note.created_at %>
           </span>
         </span>
-        <p><%= @note.body %></p>
+        <p><%= h(@note.body).gsub(/\n/, '<br/>') %></p>
       </div>
       <div class="card-action">
         <%= link_to @note, title: 'Delete', method: :delete, data: { confirm: 'Are you sure?' }, class: 'black-text' do %>
-          <%= material_icon.mode_edit %>
+          <%= material_icon.delete %>
         <% end %>
 
         <%= link_to edit_note_path(@note), title: 'Edit', class: 'black-text right' do %>
-          <%= material_icon.delete %>
+          <%= material_icon.mode_edit %>
         <% end %>
       </div>
     </div>

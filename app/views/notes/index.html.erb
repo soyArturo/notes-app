@@ -5,18 +5,26 @@
     <%= material_icon.search.css_class('prefix') %>
     <%= f.text_field :title, autofocus: true, placeholder: 'Search by title', value: params.dig(:filters, :title) %>
   <% end %>
+</div>
 
+<div class="row">
   <% @notes.each do |note| %>
-    <%= link_to notes_path do %>
-      <div class="col s6">
+    <%= link_to note_path id: note.id do %>
+      <div class="row">
         <div class="card">
           <div class="card-content black-text">
-            <span class="card-title">
-              <%= note.title %>
-              <span style="font-size: 50%">
+            <div class="card-title">
+            <div class="row" style="margin-bottom: 0px">
+              <div class="col s6">
+                <%= note.title %>
+              </div>
+              <div class="col s6 right-align">
+              <span style="font-size: 50%;">
                 <%= format_as_localtime note.created_at %>
               </span>
-            </span>
+              </div>
+            </div>
+            </div>
           </div>
         </div>
       </div>
@@ -25,7 +33,7 @@
 </div>
 
 <div class="fixed-action-btn">
-  <%= link_to new_note_path, title: 'New note', class: 'btn-floating btn-large pulse disabled' do %>
+  <%= link_to new_note_path, title: 'New note', class: 'btn-floating btn-large pulse' do %>
     <%= material_icon.add %>
   <% end %>
 </div>

@@ -1,7 +1,8 @@
 class Note < ApplicationRecord
-  validates :body, presence: true
+  validates :title, :body, presence: true
 
   def self.search_by_title(keywords)
-    where title: keywords
+    puts keywords
+    where 'title LIKE ?', "%#{keywords}%"
   end
 end
